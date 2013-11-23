@@ -1,0 +1,21 @@
+<% if false %>
+  <%= render inline: ERB.new(@erb_code).result(binding) %>
+  
+  <% else %>
+<%= simple_form_for @task do |f| %>  
+      <%= f.input :project_id, :label => t('Project#'), :readonly => true %>
+	  <%= f.input :name, :label => t('Task Name') %>  
+	  <%= f.input :requirement, :label => t('Description'), :input_html => {:rows => 4} %>
+	  <%= f.input :instruction, :label => t('Instructions'), :input_html => {:rows => 4} %>
+	  <%= f.input :start_date, :label => t('Start Date'), :as => :string %>
+      <%= f.input :finish_date, :label => t('Finish Date'), :as => :string %>
+	  <%= f.input :status_id, :label => t('Task Status'), :collection => Commonx::MiscDefinition.where(:for_which => 'task_status'), :include_blank => true %>
+	  <%= f.input :executioner_id, :label => t('Executioner'), :collection => Authentify::User.where(:status => 'active'), :include_blank => true %>
+	  <%= f.input :task_category, :as => :hidden, :input_html => {:value => @task_category} if @task_category.present? %>
+	  
+	  <%= link_to t('Back'), SUBURI + "/authentify/view_handler?index=0", :class => BUTTONS_CLS['action'] %>
+	  <%= f.button :submit, t('Save'), :class =>'btn btn-primary' %>  
+<% end %>
+  
+<% end%>
+

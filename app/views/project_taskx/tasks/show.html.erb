@@ -1,0 +1,76 @@
+<% if false %>
+  <%= render inline: ERB.new(@erb_code).result(binding) %>
+  
+  <% else %>
+<div id="main_body">
+<h4><%=t('Task Info') %></h4>
+
+<p>
+  <b><%= t('Project#') %></b>
+  <%= @task.project_id %>
+</p>
+<p>
+  <b><%= t('Name') %></b>
+  <%= @task.name %>
+</p>
+<p>
+  <b><%= t('Requirement') %></b>
+  <%= @task.requirement %>
+</p>
+<p>
+  <b><%= t('Instruction') %></b>
+  <%= @task.instruction %>
+</p>
+<% if @task.task_category.present? %>
+  <p>
+    <b><%= t('Task Category')  %></b>
+    <%= @task.task_category %>
+  </p>
+<% end %>
+<p>
+  <b><%= t('Task Status') %></b>
+  <%= @task.status.name if @task.status_id.present? %>
+</p>
+<p>
+  <b><%= t('Start Date') %></b>
+  <%= @task.start_date.strftime('%Y/%m/%d') if @task.start_date.present? %>
+</p>
+<p>
+  <b><%= t('Finish Date') %></b>
+  <%= @task.finish_date.strftime('%Y/%m/%d') if @task.finish_date.present? %>
+</p>
+
+<p>
+  <b><%= t('Cancelled') %></b>
+  <%= @task.cancelled ? t('Yes') : t('No') %>
+</p>
+<p>
+  <b><%= t('Completed') %></b>
+  <%= @task.completed ? t('Yes') : t('No') %>
+</p>
+<p>
+  <b><%= t('Executioner') %></b>
+  <%= @task.executioner.name %>
+</p>
+<p>
+  <b><%= t('Requested By') %></b>
+  <%= @task.requested_by.name %>
+</p>
+<p>
+  <b><%= t('Last Updated By') %></b>
+  <%= @task.last_updated_by.name %>
+</p>
+<p>
+  <b>LOG：</b>
+  <% Commonx::Log.where('resource_id = ? AND resource_name = ?', @task.id, params[:controller].sub('/', '_')).order("created_at DESC").each do |t| %>
+    <li><%= t.created_at.strftime("%Y/%m/%d") %>,&nbsp; <%= t.last_updated_by.name %>,&nbsp; <%= t.log %> </li>
+  <% end %>
+</p>
+
+  <%= link_to t('Back'), SUBURI + "/authentify/view_handler?index=0", :id => 'close', :class => BUTTONS_CLS['action'] %>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<%= link_to t('New Log'), SUBURI + commonx.new_log_path(:resource_id => @task.id, :resource_name => params[:controller], :subaction => 'project_task', :format => :js), :remote => true, 
+                          :id => 'new_log_link', :class => BUTTONS_CLS['action'] if has_action_right?('create_project_task', 'commonx/logs') %>    	
+</div>
+
+<% end %>
