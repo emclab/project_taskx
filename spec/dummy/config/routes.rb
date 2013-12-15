@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   mount Commonx::Engine => "/commonx"
   mount HeavyMachineryProjectx::Engine => '/projectx'
   mount Kustomerx::Engine => '/kustomerx'
+  mount Searchx::Engine => '/searchx'
   
   resource :session
   
