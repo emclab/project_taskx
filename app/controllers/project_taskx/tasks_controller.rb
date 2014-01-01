@@ -28,6 +28,7 @@ module ProjectTaskx
       if @task.save
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Successfully Saved!")
       else
+        @project = ProjectTaskx.project_class.find_by_id(params[:task][:project_id]) if params[:task].present? && params[:task][:project_id].present?
         flash[:notice] = t('Data Error. Not Saved!')
         render 'new'
       end

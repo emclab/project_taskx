@@ -3,7 +3,7 @@
   
   <% else %>
 <%= simple_form_for @task do |f| %>  
-      <%= f.input :project_id, :label => t('Project#'), :readonly => true %>
+      <%= f.input :project_id, :label => t('Project#'), :readonly => true, :input_html => {:value => @project.id} %>
 	  <%= f.input :name, :label => t('Task Name') %>  
 	  <%= f.input :requirement, :label => t('Description'), :input_html => {:rows => 4} %>
 	  <%= f.input :instruction, :label => t('Instructions'), :input_html => {:rows => 4} %>
