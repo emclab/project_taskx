@@ -11,14 +11,14 @@ module ProjectTaskx
       @tasks = @tasks.where(:project_id => @project.id) if @project 
       @tasks = @tasks.where('TRIM(project_taskx_tasks.task_category) = ?', params[:task_category].strip) if params[:task_category].present?
       @tasks = @tasks.page(params[:page]).per_page(@max_pagination) 
-      @erb_code = find_config_const('task_index_view', 'project_taskx_tasks')
+      @erb_code = find_config_const('task_index_view', 'project_taskx')
     end
   
     def new
       @title = t('New Event Task')
       @task = ProjectTaskx::Task.new()
       @task_category = params[:task_category].strip if params[:task_category].present?
-      @erb_code = find_config_const('task_new_view', 'project_taskx_tasks')
+      @erb_code = find_config_const('task_new_view', 'project_taskx')
     end
   
     def create
@@ -37,7 +37,7 @@ module ProjectTaskx
     def edit
       @title = t('Update Event Task')
       @task = ProjectTaskx::Task.find_by_id(params[:id])
-      @erb_code = find_config_const('task_edit_view', 'project_taskx_tasks')
+      @erb_code = find_config_const('task_edit_view', 'project_taskx')
     end
   
     def update
@@ -54,7 +54,7 @@ module ProjectTaskx
     def show
       @title = t('Show Event Task')
       @task = ProjectTaskx::Task.find_by_id(params[:id])
-      @erb_code = find_config_const('task_show_view', 'project_taskx_tasks')
+      @erb_code = find_config_const('task_show_view', 'project_taskx')
     end
     
     protected
